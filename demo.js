@@ -66,6 +66,7 @@ function kreirajEHRzaBolnika() {
 function preberiEHRodBolnika() {
 	sessionId = getSessionId();
 
+
 	var ehrId = $("#preberiEHRid").val();
 
 	if (!ehrId || ehrId.trim().length == 0) {
@@ -79,7 +80,85 @@ function preberiEHRodBolnika() {
 				var party = data.party;
 				$("#preberiSporocilo").html("<span class='obvestilo label label-success fade-in'>Bolnik '" + party.firstNames + " " + party.lastNames + "', ki se je rodil '" + party.dateOfBirth + "'.</span>");
 				console.log("Bolnik '" + party.firstNames + " " + party.lastNames + "', ki se je rodil '" + party.dateOfBirth + "'.");
-			},
+			if(party.firstNames=="Norm")
+			{
+				var dan=01;
+				mesec=01;
+				leto=2013;
+				ura=01;
+				if(ura>24)
+				{
+					ura=01;
+					dan++;
+				}
+				if(dan>30)
+				{
+					dan=01;
+					mesec++;
+				}
+		
+				var cas=leto+"-"+mesec+"-"+dan+"T1"+ura+"00";
+				for(i in 100)
+				{
+					
+					dodajMeritveVitalnihZnakov(ehrID,cas,170,80,36+Math.random())
+					ura++;
+				}
+			}
+			else 	if(party.firstNames=="Helix")
+			{
+				var dan=01;
+				mesec=01;
+				leto=2013;
+				ura=01;
+				if(ura>24)
+				{
+					ura=01;
+					dan++;
+				}
+				if(dan>30)
+				{
+					dan=01;
+					mesec++;
+				}
+		
+				var cas=leto+"-"+mesec+"-"+dan+"T1"+ura+"00";
+				var temp=Math.random()*
+				for(i in 100)
+				{
+					
+					dodajMeritveVitalnihZnakov(ehrID,cas,200,95,36+Math.random()*4)
+					ura++;
+				}
+			}
+			
+			else 	if(party.firstNames=="Iceman")
+			{
+				var dan=01;
+				mesec=01;
+				leto=2013;
+				ura=01;
+				if(ura>24)
+				{
+					ura=01;
+					dan++;
+				}
+				if(dan>30)
+				{
+					dan=01;
+					mesec++;
+				}
+		
+				var cas=leto+"-"+mesec+"-"+dan+"T1"+ura+"00";
+				for(i in 100)
+				{
+					
+					dodajMeritveVitalnihZnakov(ehrID,cas,185,80,37-Math.random()*4)
+					ura++;
+				}
+			}
+		    		
+	    	},
 			error: function(err) {
 				$("#preberiSporocilo").html("<span class='obvestilo label label-danger fade-in'>Napaka '" + JSON.parse(err.responseText).userMessage + "'!");
 				console.log(JSON.parse(err.responseText).userMessage);
@@ -89,7 +168,7 @@ function preberiEHRodBolnika() {
 }
 
 
-function dodajMeritveVitalnihZnakov() {
+function dodajMeritveVitalnihZnakov(var ehrId,var datumInUra,var telesnaVisina,var telesnaTeza,var telesnaTemperatura) {
 	sessionId = getSessionId();
 
 	var ehrId = $("#dodajVitalnoEHR").val();
