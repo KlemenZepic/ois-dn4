@@ -218,6 +218,56 @@ function dodajMeritveVitalnihZnakov(var ehrId,var datumInUra,var telesnaVisina,v
 	}
 }
 
+function dodajMeritveVitalnihZnakovGenerate(var ehrId,var datumInUra,var telesnaVisina,var telesnaTeza,var telesnaTemperatura) {
+	sessionId = getSessionId();
+
+	var ehrId = ehrId,
+	var datumInUra = datumInUra;
+	var telesnaVisina = telesnaVisina;
+	var telesnaTeza = telesnaTeza;
+	var telesnaTemperatura = TelesnaTemperatura;
+	
+
+	if (!ehrId || ehrId.trim().length == 0) {
+		$("#dodajMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-warning fade-in'>Prosim vnesite zahtevane podatke!</span>");
+	} else {
+		$.ajaxSetup({
+		    headers: {"Ehr-Session": sessionId}
+		});
+		var podatki = {
+			// Preview Structure: https://rest.ehrscape.com/rest/v1/template/Vital%20Signs/example
+		    "ctx/language": "en",
+		    "ctx/territory": "SI",
+		    "ctx/time": datumInUra,
+		    "vital_signs/height_length/any_event/body_height_length": telesnaVisina,
+		    "vital_signs/body_weight/any_event/body_weight": telesnaTeza,
+		   	"vital_signs/body_temperature/any_event/temperature|magnitude": telesnaTemperatura,
+		    "vital_signs/body_temperature/any_event/temperature|unit": "°C",
+		    
+		};
+		var parametriZahteve = {
+		    "ehrId": ehrId,
+		    templateId: 'Vital Signs',
+		    format: 'FLAT',
+		    committer: merilec
+		};
+		$.ajax({
+		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
+		    type: 'POST',
+		    contentType: 'application/json',
+		    data: JSON.stringify(podatki),
+		    success: function (res) {
+		    	console.log(res.meta.href);
+		        $("#dodajMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-success fade-in'>" + res.meta.href + ".</span>");
+		    },
+		    error: function(err) {
+		    	$("#dodajMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-danger fade-in'>Napaka '" + JSON.parse(err.responseText).userMessage + "'!");
+				console.log(JSON.parse(err.responseText).userMessage);
+		    }
+		});
+	}
+}
+
 
 function preberiMeritveVitalnihZnakov() {
 	sessionId = getSessionId();	
