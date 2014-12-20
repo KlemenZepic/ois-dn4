@@ -145,6 +145,7 @@ function preberiMeritveVitalnihZnakov() {
 
 	var ehrId = $("#meritveVitalnihZnakovEHRid").val();
 	var tip = $("#preberiTipZaVitalneZnake").val();
+	var status=0;
 
 	if (!ehrId || ehrId.trim().length == 0 || !tip || tip.trim().length == 0) {
 		$("#preberiMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-warning fade-in'>Prosim vnesite zahtevan podatek!");
@@ -156,7 +157,7 @@ function preberiMeritveVitalnihZnakov() {
 	    	success: function (data) {
 				var party = data.party;
 				$("#rezultatMeritveVitalnihZnakov").html("<br/><span>Pridobivanje podatkov za <b>'" + tip + "'</b> bolnika <b>'" + party.firstNames + " " + party.lastNames + "'</b>.</span><br/><br/>");
-				if (tip == "telesna temperatura") {
+				if (tip == "telesna temperatura_preveri") {
 					$.ajax({
 					    url: baseUrl + "/view/" + ehrId + "/" + "body_temperature",
 					    type: 'GET',
@@ -164,8 +165,11 @@ function preberiMeritveVitalnihZnakov() {
 					    success: function (res) {
 					    	if (res.length > 0) {
 						    	var results = "<table class='table table-striped table-hover'><tr><th>Datum in ura</th><th class='text-right'>Telesna temperatura</th></tr>";
-						        for (var i in res) {
+						        for (var i in 1) {
 						            results += "<tr><td>" + res[i].time + "</td><td class='text-right'>" + res[i].temperature + " " 	+ res[i].unit + "</td>";
+						            if(res[i].unit > 38.5 || res[i].unit < 35){status==2;}
+						            else if(res[i].unit > 36 && res[i].unit <37){status==0}
+						            else{staus=1}
 						        }
 						        results += "</table>";
 						        $("#rezultatMeritveVitalnihZnakov").append(results);
