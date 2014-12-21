@@ -327,14 +327,50 @@ function preberiMeritveVitalnihZnakov() {
 					    type: 'GET',
 					    headers: {"Ehr-Session": sessionId},
 					    success: function (res) {
+					    	
 					    	var results = "<table class='table table-striped table-hover'><tr><th>Datum in ura</th><th class='text-right'>Telesna temperatura</th></tr>";
 					    	if (res) {
 					    		var rows = res.resultSet;
 						        for (var i in rows) {
+						             var data +={"Cas meritve": rows[i].cas; "Temperatura:" rows[i].temperatura_vrednost + " " 	+ rows[i].temperatura_enota;}
 						            results += "<tr><td>" + rows[i].cas + "</td><td class='text-right'>" + rows[i].temperatura_vrednost + " " 	+ rows[i].temperatura_enota + "</td>";
 						        }
 						        results += "</table>";
+						        
 						        $("#rezultatMeritveVitalnihZnakov").append(results);
+						        //Generate CSV file
+						         var csvData = new Array();
+        						csvData.push('"Book title","Author"');
+							 data.forEach(function (item, index, array) {
+            						csvData.push('"' + item.title + '","' + item.author + '"');
+        						});
+
+        						// download stuff
+        						var buffer = csvData.join("\n");
+        						var uri = "data:text/csv;charset=utf8," + encodeURIComponent(buffer);
+							 var fileName = "data.csv";
+
+        						var link = document.createElement("a");
+							if (link.download !== undefined) { // feature detection
+            						// Browsers that support HTML5 download attribute
+            						link.setAttribute("href", uri);
+            						link.setAttribute("download", fileName);
+        						}
+        						else if (navigator.msSaveBlob) { // IE 10+
+            						link.addEventListener("click", function (event) {
+        						 var blob = new Blob([buffer], {
+                					 "type": "text/csv;charset=utf-8;"
+                					});
+                					navigator.msSaveBlob(blob, fileName);
+            						}, false);
+        						}
+							 else {
+            						// it needs to implement server side export
+            						link.setAttribute("href", "http://www.example.com/export");
+        						}
+        						link.innerHTML = "Export to CSV";
+        						document.body.appendChild(link);
+						        
 					    	} else {
 					    		$("#preberiMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-warning fade-in'>Ni podatkov!</span>");
 					    	}
