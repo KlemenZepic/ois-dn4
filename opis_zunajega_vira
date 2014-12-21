@@ -1,0 +1,4 @@
+Za zunanji vir aplikacije se uporabljajo google zemljevidi. Ko aplikacija zazna, da je uporabniku dodeljen status 2, kar pomeni 
+nujno medicinsko pomoč se naredi redirekcija na google zamljevide v katero se pošlje uporabnikova trenutna lokacija na podlagi 
+katere se uporabniku izriše pot do najbližje bolnišnice. Redirekcija je narejena zato, da se uporabniku omogoči izbiro bolnišnice,
+če z predlagano ni zadovoljen. 
