@@ -101,7 +101,7 @@ function preberiEHRodBolnika() {
 				for(i in 100)
 				{
 					
-					dodajMeritveVitalnihZnakov(ehrID,cas,170,80,36+Math.random())
+					dodajMeritveVitalnihZnakovGenerator(ehrID,cas,170,80,36+Math.random())
 					ura++;
 				}
 			}
@@ -127,7 +127,7 @@ function preberiEHRodBolnika() {
 				for(i in 100)
 				{
 					
-					dodajMeritveVitalnihZnakov(ehrID,cas,200,95,36+Math.random()*4)
+					dodajMeritveVitalnihZnakovGenerator(ehrID,cas,200,95,36+Math.random()*4)
 					ura++;
 				}
 			}
@@ -153,7 +153,7 @@ function preberiEHRodBolnika() {
 				for(i in 100)
 				{
 					
-					dodajMeritveVitalnihZnakov(ehrID,cas,185,80,37-Math.random()*4)
+					dodajMeritveVitalnihZnakovGenerator(ehrID,cas,185,80,37-Math.random()*4)
 					ura++;
 				}
 			}
@@ -168,7 +168,7 @@ function preberiEHRodBolnika() {
 }
 
 
-function dodajMeritveVitalnihZnakov(var ehrId,var datumInUra,var telesnaVisina,var telesnaTeza,var telesnaTemperatura) {
+function dodajMeritveVitalnihZnakov() {
 	sessionId = getSessionId();
 
 	var ehrId = $("#dodajVitalnoEHR").val();
@@ -302,6 +302,10 @@ function preberiMeritveVitalnihZnakov() {
 						        }
 						        results += "</table>";
 						        $("#rezultatMeritveVitalnihZnakov").append(results);
+						        var stanjePacienta=" ";
+						        if(status==0){stanjePacienta="Ste v optimalnem stanju";}
+						        else if(status==1){stanjePacienta="Imete vročino ali ste st malo podhlajeni, prosimo obiščite zdravnika";}
+						        else if(status==2){stanjePacienta="Ste v skoraj kritičnem stannu stanju, takoj obiščite zdarvstveno ustanovo";}
 					    	} else {
 					    		$("#preberiMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-warning fade-in'>Ni podatkov!</span>");
 					    	}
@@ -390,6 +394,8 @@ function preberiMeritveVitalnihZnakov() {
 		});
 	}
 }
+
+
 
 
 $(document).ready(function() {
