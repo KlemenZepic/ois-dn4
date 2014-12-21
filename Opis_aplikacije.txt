@@ -1,0 +1,6 @@
+Aplikacija je namenjena preverjanju telesne temperature in stopnje tveganja uporabnikovega trenutnega stanja. Uporabnik vnese 
+svojo telesno temperaturo, višino in telesno maso, na podlagi katih se mu dodeli status tveganja njegovega stanja.
+Status 0 pomeni, da tveganja ni oz. je minimalno, status 1 se dodeli uporabniku, ki ima manjša odstopanja od predvidene 
+telesne tempemperature in to pomeni, da tveganje obstaja in je priporočljivo, da v kratkem obišče zdaravnika. 
+Status 2 pa nastopi, ko uporabnikova telesna temperatura pride v kritične meje in v tem primetu se uporabnika napoti v 
+najbližjo bolnišnico. Aplikacija nudi tudi spremljanje telesne temperature skozi čas v obliki grafa, za iskanje morebitnih ponavljajočih se vzorcov.
