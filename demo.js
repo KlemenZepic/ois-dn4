@@ -334,16 +334,11 @@ function preberiMeritveVitalnihZnakov() {
 					    		var rows = res.resultSet;
 						        for (var i in rows) {
 						             var data +={"Cas meritve": rows[i].cas; "Temperatura:" rows[i].temperatura_vrednost + " " 	+ rows[i].temperatura_enota;}
-						            results += "<tr><td>" + rows[i].cas + "</td><td class='text-right'>" + rows[i].temperatura_vrednost + " " 	+ rows[i].temperatura_enota + "</td>";
-						        }
-						        results += "</table>";
-						        
-						        $("#rezultatMeritveVitalnihZnakov").append(results);
-						        //Generate CSV file
+						            //Generate CSV file
 						         var csvData = new Array();
-        						csvData.push('"Book title","Author"');
-							 data.forEach(function (item, index, array) {
-            						csvData.push('"' + item.title + '","' + item.author + '"');
+        						csvData.push('"Cas_meritve","Temperatura:"');
+							 data.forEach(function (data, index, array) {
+            						csvData.push('"' + data.Cas_meritve + '","' + data.Temperatura + '"');
         						});
 
         						// download stuff
@@ -371,6 +366,14 @@ function preberiMeritveVitalnihZnakov() {
         						}
         						link.innerHTML = "Export to CSV";
         						document.body.appendChild(link);
+						            
+						            
+						            results += "<tr><td>" + rows[i].cas + "</td><td class='text-right'>" + rows[i].temperatura_vrednost  "</td>";
+						        }
+						        results += "</table>";
+						        
+						        $("#rezultatMeritveVitalnihZnakov").append(results);
+						        
 						        
 					    	} else {
 					    		$("#preberiMeritveVitalnihZnakovSporocilo").html("<span class='obvestilo label label-warning fade-in'>Ni podatkov!</span>");
